@@ -3,9 +3,7 @@ import { FETCH_ALL, CREATE, UPDATE, DELETE, LIKE } from '../constants/actionType
 
 //action creators
 export const getPosts = () => async(dispatch) => {//dispatch from redux-thunk
-    // const action = { type:'FETCH_ALL', payload:[]}
-
-    // dispatch(action);
+    
     try {
         const { data } = await api.fetchPosts();//fetching data from api
         dispatch({ type: FETCH_ALL, payload: data }) ;//sending data thr action payload,in the reducer,return action.payload
@@ -24,6 +22,10 @@ export const createPost = (post) => async(dispatch) =>{
     }
 }
 export const updatePost = (id, post) => async (dispatch) => {
+  if (!id) {
+    console.error('Attempted to update a post without a valid id');
+    return;
+  }
     try {
       const { data } = await api.updatePost(id, post);
   
